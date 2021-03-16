@@ -1,4 +1,4 @@
-import 'package:codecany1/screens/signUp.dart';
+import 'package:codecany1/screens/signup/signUp.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,18 +9,20 @@ import 'signIn.dart';
 class Welcome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    double Width = MediaQuery.of(context).size.width;
-    double Height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Container(
-        width: Width,
+        width: width,
         decoration: BoxDecoration(
           image: DecorationImage(
               image: AssetImage("assets/28.jpg"), fit: BoxFit.fill),
         ),
         child: Column(
           children: [
-            SizedBox(height: Height*.17,),
+            SizedBox(
+              height: height * .17,
+            ),
             Text(
               'Welcome to our app',
               style: GoogleFonts.pacifico(
@@ -31,15 +33,11 @@ class Welcome extends StatelessWidget {
             Spacer(),
             GestureDetector(
               onTap: () {
-
-
-                Get.to(SignUp(),
-
-                    transition: Transition.leftToRight);
+                Get.to(SignUp(), transition: Transition.leftToRight);
               },
               child: Container(
                 height: 40,
-                width: Width * .5,
+                width: width * .5,
                 decoration: BoxDecoration(
                   color: Color.fromRGBO(255, 255, 255, .4),
                   borderRadius: BorderRadius.circular(20),
@@ -61,12 +59,11 @@ class Welcome extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                Get.to(SignIn(),
-                    transition: Transition.leftToRight);
+                Get.to(SignIn(), transition: Transition.leftToRight);
               },
               child: Container(
                 height: 40,
-                width: Width * .5,
+                width: width * .5,
                 decoration: BoxDecoration(
                   color: Color.fromRGBO(255, 255, 255, .4),
                   borderRadius: BorderRadius.circular(20),
@@ -83,7 +80,9 @@ class Welcome extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: Height*.17,)
+            SizedBox(
+              height: height * .17,
+            )
           ],
         ),
       ),

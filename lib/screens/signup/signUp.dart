@@ -1,9 +1,13 @@
 import 'package:codecany1/auth/authentification.dart';
-import 'package:codecany1/screens/dashboard.dart';
+import 'package:codecany1/screens/dashboard/dashboard.dart';
+import 'package:codecany1/screens/welcome.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get_navigation/src/routes/transitions_type.dart';
+import 'package:get/get.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -14,12 +18,6 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
   final TextEditingController passwordControllerc = new TextEditingController();
-  // bool isAuthenticated = false;
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -165,7 +163,21 @@ class _SignUpState extends State<SignUp> {
               height: height * .05,
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () async {
+                UserCredential u = await Authentification().firebaseSignup(
+                  emailController.text.toLowerCase().trim(),
+                  passwordController.text.trim(),
+                );
+                if (u != null) {
+                  User user = Authentification().logedUser();
+                  Get.to(
+                      Dashboard(
+                        uid: user.uid,
+                      ),
+                      transition: Transition.leftToRight);
+                  print('signup Successful');
+                }
+              },
               child: Container(
                 height: 40,
                 width: width * .7,
@@ -199,18 +211,15 @@ class _SignUpState extends State<SignUp> {
                   onTap: () async {
                     bool googleAuth =
                         await Authentification().signInWithGoogle();
-                    if (googleAuth) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Dashboard(),
-                          ));
+                    User user = Authentification().logedUser();
+                    if (googleAuth != null && user != null) {
+                      Get.to(
+                          Dashboard(
+                            uid: user.uid,
+                          ),
+                          transition: Transition.leftToRight);
                     } else {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SignUp(),
-                          ));
+                      Get.to(Welcome(), transition: Transition.leftToRight);
                     }
                   },
                   child: Image.asset(
